@@ -1,0 +1,25 @@
+{
+  "name": "maestro-bundle",
+  "version": "1.9.0",
+  "description": "Instala bundles de governança para projetos com AI agents. Um comando, tudo configurado.",
+  "bin": {
+    "maestro-bundle": "./src/cli.mjs"
+  },
+  "type": "module",
+  "keywords": [
+    "ai",
+    "agents",
+    "governance",
+    "jhipster",
+    "langchain",
+    "spec-kit",
+    "sdd",
+    "agents-md"
+  ],
+  "author": "Maestro",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "ora": "^8.0.1"
+  }
+}
