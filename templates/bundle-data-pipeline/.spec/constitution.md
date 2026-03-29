@@ -1,32 +1,32 @@
-# Constitution — Projeto Pipeline de Dados e ML
+# Constitution — Data and ML Pipeline Project
 
-## Princípios
+## Principles
 
-1. **Spec primeiro, código depois** — Toda demanda passa pelo fluxo SDD antes de implementação
-2. **Dados originais são imutáveis** — Nunca editar dados em `raw/`
-3. **Reprodutibilidade** — Todo pipeline deve ser reproduzível com mesma entrada = mesma saída
-4. **Baseline obrigatório** — Todo modelo precisa de baseline para comparação
-5. **Notebook para exploração, script para produção** — Refatorar antes de merge
+1. **Spec first, code later** — Every demand goes through the SDD flow before implementation
+2. **Original data is immutable** — Never edit data in `raw/`
+3. **Reproducibility** — Every pipeline must be reproducible with same input = same output
+4. **Baseline mandatory** — Every model needs a baseline for comparison
+5. **Notebook for exploration, script for production** — Refactor before merge
 
-## Padrões de desenvolvimento
+## Development Standards
 
 - Python 3.11+, type hints, Black + Ruff
-- Funções puras para transformações (input → output)
-- Validação de schema em cada etapa (Pandera)
-- Versionamento de datasets com DVC
-- Experiment tracking com MLflow
+- Pure functions for transformations (input -> output)
+- Schema validation at each step (Pandera)
+- Dataset versioning with DVC
+- Experiment tracking with MLflow
 
-## Padrões de ML
+## ML Standards
 
-- Cross-validation k=5 mínimo
-- Métricas documentadas no MLflow
-- Feature importance registrada
-- Random seed consistente
-- A/B testing antes de substituir modelo
+- Cross-validation k=5 minimum
+- Metrics documented in MLflow
+- Feature importance recorded
+- Consistent random seed
+- A/B testing before replacing model
 
-## Padrões de qualidade
+## Quality Standards
 
-- Testes de schema para transformações
-- Testes de regressão para métricas
-- Cobertura mínima: 80% em pipelines
-- Commits seguem Conventional Commits
+- Schema tests for transformations
+- Regression tests for metrics
+- Minimum coverage: 80% on pipelines
+- Commits follow Conventional Commits

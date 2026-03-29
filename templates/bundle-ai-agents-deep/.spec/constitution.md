@@ -1,24 +1,24 @@
-# Constitution — Projeto Deep Agent
+# Constitution — Deep Agent Project
 
-## Princípios
+## Principles
 
-1. **Spec primeiro, código depois** — Toda demanda passa pelo fluxo SDD antes de implementação
-2. **Agent harness completo** — Todo Deep Agent tem: tools, system prompt, middleware, backend, checkpointer
-3. **Subagentes para isolamento** — Tarefas especializadas vão para subagentes, nunca bloat no main
-4. **Human-in-the-loop obrigatório** — Operações destrutivas sempre pedem aprovação
-5. **Skills on-demand** — Carregar conhecimento quando relevante, não no startup
+1. **Spec first, code later** — Every demand goes through the SDD flow before implementation
+2. **Complete agent harness** — Every Deep Agent has: tools, system prompt, middleware, backend, checkpointer
+3. **Subagents for isolation** — Specialized tasks go to subagents, never bloat the main agent
+4. **Human-in-the-loop mandatory** — Destructive operations always require approval
+5. **Skills on-demand** — Load knowledge when relevant, not at startup
 
-## Padrões de desenvolvimento
+## Development Standards
 
 - Python 3.11+, type hints, Black + Ruff
-- Tools com schemas Pydantic e descrições claras
-- System prompts versionados em código
-- Checkpointer obrigatório (MemorySaver dev, PostgresSaver prod)
-- Backend explícito (nunca confiar no StateBackend default em prod)
+- Tools with Pydantic schemas and clear descriptions
+- System prompts versioned in code
+- Checkpointer mandatory (MemorySaver dev, PostgresSaver prod)
+- Explicit backend (never rely on the default StateBackend in prod)
 
-## Padrões de qualidade
+## Quality Standards
 
-- Evals com golden dataset antes de deploy
-- Middleware de logging em todo agente
-- Testes unitários para tools e middleware
-- Cobertura mínima: 80%
+- Evals with golden dataset before deploy
+- Logging middleware on every agent
+- Unit tests for tools and middleware
+- Minimum coverage: 80%

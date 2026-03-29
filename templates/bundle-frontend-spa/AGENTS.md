@@ -1,110 +1,110 @@
-# Projeto: Frontend SPA (Single Page Application)
+# Project: Frontend SPA (Single Page Application)
 
-Você está construindo uma aplicação frontend moderna com React, TypeScript e Tailwind CSS que consome APIs REST ou GraphQL.
+You are building a modern frontend application with React, TypeScript, and Tailwind CSS that consumes REST or GraphQL APIs.
 
 ## Specification-Driven Development (SDD)
 
-A regra fundamental de SDD está definida no bundle-base (AGENTS.md base) e é inegociável:
-**Sem spec, sem código. Sem exceção.** O agente deve recusar implementar qualquer demanda que
-não tenha passado pelo fluxo `/speckit.specify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.implement`.
+The fundamental SDD rule is defined in the bundle-base (base AGENTS.md) and is non-negotiable:
+**No spec, no code. No exception.** The agent must refuse to implement any demand that
+has not gone through the `/speckit.specify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.implement` flow.
 
-Se o usuário pedir para codar algo sem spec, PARE e inicie o fluxo SDD primeiro.
-Consulte `.specify/specs/` para verificar se já existe spec para a demanda.
+If the user asks to code something without a spec, STOP and initiate the SDD flow first.
+Check `.specify/specs/` to verify if a spec already exists for the demand.
 
 ## Product Requirements Document
 
-O arquivo `PRD.md` na raiz do projeto contém os requisitos do produto definidos pelo analista/dev. Consulte-o para entender O QUE construir, as user stories, critérios de aceite, modelo de dados e API specification. Este AGENTS.md define COMO o agente deve trabalhar; o PRD define O QUE deve ser construído.
+The `PRD.md` file at the project root contains the product requirements defined by the analyst/dev. Consult it to understand WHAT to build, the user stories, acceptance criteria, data model, and API specification. This AGENTS.md defines HOW the agent should work; the PRD defines WHAT should be built.
 
-- `PRD.md` — Requisitos do produto, user stories, API spec, modelo de dados
+- `PRD.md` — Product requirements, user stories, API spec, data model
 
 ## References
 
-Documentos de referência que o agente deve consultar quando necessário:
+Reference documents that the agent should consult when necessary:
 
-- `references/react-component-patterns.md` — Padrões de componentes React
-- `references/tailwind-design-system.md` — Design system com Tailwind
-- `references/testing-library-guide.md` — Guia de testes com Testing Library
+- `references/react-component-patterns.md` — React component patterns
+- `references/tailwind-design-system.md` — Design system with Tailwind
+- `references/testing-library-guide.md` — Testing Library guide
 
-## Stack do projeto
+## Project Stack
 
-- **Framework:** React 18+ com TypeScript (strict mode)
+- **Framework:** React 18+ with TypeScript (strict mode)
 - **Bundler:** Vite
-- **Estilização:** Tailwind CSS + Shadcn/UI
-- **Estado:** Zustand (global) + React Query (server state)
-- **Roteamento:** React Router v6+
+- **Styling:** Tailwind CSS + Shadcn/UI
+- **State:** Zustand (global) + React Query (server state)
+- **Routing:** React Router v6+
 - **Forms:** React Hook Form + Zod
 - **HTTP:** Axios
-- **WebSocket:** Socket.io-client (se real-time)
-- **Testes:** Vitest + Testing Library + Playwright (E2E)
+- **WebSocket:** Socket.io-client (if real-time)
+- **Tests:** Vitest + Testing Library + Playwright (E2E)
 
-## Estrutura do projeto
+## Project Structure
 
 ```
 src/
-├── features/                   # Organizado por feature/domínio
+├── features/                   # Organized by feature/domain
 │   ├── demands/
-│   │   ├── components/         # Componentes da feature
+│   │   ├── components/         # Feature components
 │   │   │   ├── DemandList.tsx
 │   │   │   ├── DemandCard.tsx
 │   │   │   └── DemandForm.tsx
 │   │   ├── hooks/              # Custom hooks
 │   │   │   └── useDemands.ts
-│   │   ├── services/           # Chamadas API
+│   │   ├── services/           # API calls
 │   │   │   └── demandApi.ts
-│   │   ├── types.ts            # Types da feature
+│   │   ├── types.ts            # Feature types
 │   │   └── index.ts            # Barrel export
 │   ├── dashboard/
 │   └── auth/
-├── shared/                     # Compartilhado entre features
+├── shared/                     # Shared across features
 │   ├── components/             # Button, Modal, Table, etc.
 │   ├── hooks/                  # useDebounce, useLocalStorage, etc.
 │   ├── lib/                    # api.ts (axios instance), utils
-│   └── types/                  # Types globais
+│   └── types/                  # Global types
 ├── layouts/                    # AppLayout, AuthLayout
-├── routes/                     # Configuração de rotas
-├── config/                     # Constantes, env vars
-├── styles/                     # Globals CSS
+├── routes/                     # Route configuration
+├── config/                     # Constants, env vars
+├── styles/                     # Global CSS
 └── tests/
     ├── e2e/                    # Playwright
     └── setup.ts                # Vitest setup
 ```
 
-## Padrões de código
+## Code Standards
 
-- Máximo 200 linhas por componente
-- Props tipadas com interface (não type)
-- Um componente = uma responsabilidade
-- Custom hooks para lógica reutilizável
-- Server state no React Query, UI state no Zustand
-- React Hook Form + Zod para formulários
-- Lazy loading por rota
+- Maximum 200 lines per component
+- Props typed with interface (not type)
+- One component = one responsibility
+- Custom hooks for reusable logic
+- Server state in React Query, UI state in Zustand
+- React Hook Form + Zod for forms
+- Lazy loading per route
 
-## Padrões de componentes
+## Component Standards
 
-- Composição > configuração (slots > props booleanas)
-- Container/Presenter para componentes complexos
-- Loading/Error/Empty states em todo componente async
-- Acessibilidade: semantic HTML, aria-labels, keyboard nav
+- Composition > configuration (slots > boolean props)
+- Container/Presenter for complex components
+- Loading/Error/Empty states on every async component
+- Accessibility: semantic HTML, aria-labels, keyboard nav
 
 ## Git
 
 - Commits: `feat(demands): adicionar filtro por status`
-- Branches: `feature/<feature>-<descricao>`
-- Nunca commitar node_modules, .env, dist/
+- Branches: `feature/<feature>-<description>`
+- Never commit node_modules, .env, dist/
 
-## Testes
+## Tests
 
-- Vitest + Testing Library: componentes e hooks
-- Playwright: fluxos E2E (login, CRUD, navegação)
-- Cobertura mínima: 70%
-- Testar comportamento, não implementação
+- Vitest + Testing Library: components and hooks
+- Playwright: E2E flows (login, CRUD, navigation)
+- Minimum coverage: 70%
+- Test behavior, not implementation
 
-## O que NÃO fazer
+## What NOT to do
 
-- Não usar `any` em TypeScript
-- Não fazer fetch dentro do componente (usar React Query)
-- Não duplicar dados da API no estado global
-- Não usar index como key em listas dinâmicas
-- Não criar mega-componentes de 500+ linhas
-- Não ignorar loading/error states
-- Não estilizar com CSS inline quando tem Tailwind
+- Do not use `any` in TypeScript
+- Do not fetch inside the component (use React Query)
+- Do not duplicate API data in global state
+- Do not use index as key in dynamic lists
+- Do not create mega-components of 500+ lines
+- Do not ignore loading/error states
+- Do not style with inline CSS when you have Tailwind

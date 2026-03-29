@@ -14,7 +14,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // ============================================================
 const BUNDLES = {
   "ai-agents": {
-    name: "Sistema Multi-Agente com AI",
+    name: "Multi-Agent AI System",
     desc: "Python + LangChain + LangGraph + FastAPI + pgvector",
   },
   "jhipster-monorepo": {
@@ -26,7 +26,7 @@ const BUNDLES = {
     desc: "Java 21 + Spring Boot + Angular + Kafka + Consul + K8s",
   },
   "data-pipeline": {
-    name: "Pipeline de Dados e ML",
+    name: "Data & ML Pipeline",
     desc: "Python + Pandas + Scikit-learn + MLflow + Airflow",
   },
   "frontend-spa": {
@@ -34,8 +34,8 @@ const BUNDLES = {
     desc: "React + TypeScript + Tailwind + Vite",
   },
   "ai-agents-deep": {
-    name: "Deep Agent (tipo Claude Code)",
-    desc: "Python + Deep Agents SDK + LangGraph + Subagentes + Skills",
+    name: "Deep Agent (Claude Code-like)",
+    desc: "Python + Deep Agents SDK + LangGraph + Subagents + Skills",
   },
 };
 
@@ -44,8 +44,8 @@ const BUNDLES = {
 //
 // Claude Code:
 //   Instruções:  CLAUDE.md (raiz) com @AGENTS.md
-//   Skills:      .claude/skills/<nome>/SKILL.md
-//   Rules:       .claude/rules/<nome>.md
+//   Skills:      .claude/skills/name/SKILL.md
+//   Rules:       .claude/rules/name.md
 //
 // Cursor:
 //   Instruções:  .cursor/rules/ (rules .mdc ou .md)
@@ -57,7 +57,7 @@ const BUNDLES = {
 //
 // Copilot:
 //   Instruções:  .github/copilot-instructions.md
-//   Rules:       .github/instructions/<nome>.instructions.md
+//   Rules:       .github/instructions/name.instructions.md
 //
 // Windsurf:
 //   Instruções:  .windsurfrules (raiz)
@@ -109,27 +109,27 @@ const EDITORS = {
 // ============================================================
 function showHelp() {
   console.log("");
-  console.log(chalk.bold("  maestro-bundle") + " — Instala bundles de governança para projetos com AI");
+  console.log(chalk.bold("  maestro-bundle") + " — Install governance bundles for AI-powered projects");
   console.log("");
-  console.log(chalk.dim("  Uso:"));
-  console.log(`    npx maestro-bundle ${chalk.green("<bundle>")} ${chalk.yellow("<editor>")} ${chalk.dim("[diretório]")}`);
+  console.log(chalk.dim("  Usage:"));
+  console.log(`    npx maestro-bundle ${chalk.green("<bundle>")} ${chalk.yellow("<editor>")} ${chalk.dim("[directory]")}`);
   console.log("");
   console.log(chalk.dim("  Bundles:"));
   for (const [key, info] of Object.entries(BUNDLES)) {
     console.log(`    ${chalk.green(key.padEnd(26))} ${info.desc}`);
   }
   console.log("");
-  console.log(chalk.dim("  Editores:"));
-  console.log(`    ${chalk.yellow("claude".padEnd(12))} CLAUDE.md + .claude/skills/<nome>/SKILL.md`);
-  console.log(`    ${chalk.yellow("cursor".padEnd(12))} AGENTS.md + .cursor/skills/<nome>/SKILL.md`);
-  console.log(`    ${chalk.yellow("codex".padEnd(12))} AGENTS.md (tudo em um arquivo)`);
+  console.log(chalk.dim("  Editors:"));
+  console.log(`    ${chalk.yellow("claude".padEnd(12))} CLAUDE.md + .claude/skills/name/SKILL.md`);
+  console.log(`    ${chalk.yellow("cursor".padEnd(12))} AGENTS.md + .cursor/skills/name/SKILL.md`);
+  console.log(`    ${chalk.yellow("codex".padEnd(12))} AGENTS.md (all in one file)`);
   console.log(`    ${chalk.yellow("copilot".padEnd(12))} .github/copilot-instructions.md + .github/instructions/`);
-  console.log(`    ${chalk.yellow("windsurf".padEnd(12))} .windsurfrules (tudo em um arquivo)`);
-  console.log(`    ${chalk.yellow("all".padEnd(12))} Instala para todos os editores no mesmo repo`);
+  console.log(`    ${chalk.yellow("windsurf".padEnd(12))} .windsurfrules (all in one file)`);
+  console.log(`    ${chalk.yellow("all".padEnd(12))} Install for all editors in the same repo`);
   console.log("");
-  console.log(chalk.dim("  Exemplos:"));
+  console.log(chalk.dim("  Examples:"));
   console.log(`    npx maestro-bundle ai-agents claude`);
-  console.log(`    npx maestro-bundle jhipster-monorepo cursor ./meu-projeto`);
+  console.log(`    npx maestro-bundle jhipster-monorepo cursor ./my-project`);
   console.log(`    npx maestro-bundle frontend-spa all`);
   console.log("");
 }
@@ -190,7 +190,7 @@ function installForEditor(editorKey, agentsMd, skills, targetDir) {
     }
   }
 
-  // --- Skills (Claude Code: .claude/skills/<nome>/SKILL.md) ---
+  // --- Skills (Claude Code: .claude/skills/name/SKILL.md) ---
   if (editor.skillsDir) {
     const skillsPath = join(targetDir, editor.skillsDir);
     ensureDir(skillsPath);
@@ -256,12 +256,12 @@ async function main() {
   const targetDir = resolve(args[2] || ".");
 
   if (!BUNDLES[bundleName]) {
-    console.error(chalk.red(`\n  Bundle "${bundleName}" não encontrado.\n`));
+    console.error(chalk.red(`\n  Bundle "${bundleName}" not found.\n`));
     showHelp();
     process.exit(1);
   }
   if (!EDITORS[editorArg]) {
-    console.error(chalk.red(`\n  Editor "${editorArg}" não encontrado.\n`));
+    console.error(chalk.red(`\n  Editor "${editorArg}" not found.\n`));
     showHelp();
     process.exit(1);
   }
@@ -272,7 +272,7 @@ async function main() {
   const bundleDir = join(templatesDir, `bundle-${bundleName}`);
 
   if (!existsSync(bundleDir)) {
-    console.error(chalk.red(`\n  Templates de "${bundleName}" não encontrados.\n`));
+    console.error(chalk.red(`\n  Templates for "${bundleName}" not founds.\n`));
     process.exit(1);
   }
 
@@ -295,12 +295,12 @@ async function main() {
   console.log("");
   console.log(chalk.bold(`  Bundle:  ${chalk.green(bundleInfo.name)}`));
   console.log(chalk.bold(`  Editor:  ${chalk.yellow(editorNames)}`));
-  console.log(chalk.dim(`  Destino: ${targetDir}`));
+  console.log(chalk.dim(`  Target:  ${targetDir}`));
   console.log("");
 
-  // 1. Instalar para cada editor
+  // 1. Install for each editor
   for (const editorKey of editorsToInstall) {
-    const spinner = ora(`Instalando para ${EDITORS[editorKey].name}`).start();
+    const spinner = ora(`Installing for ${EDITORS[editorKey].name}`).start();
     const results = installForEditor(editorKey, agentsMd, skills, targetDir);
     spinner.succeed(`${EDITORS[editorKey].name}: ${results.join(", ")}`);
   }
@@ -311,57 +311,48 @@ async function main() {
     const prdDest = join(targetDir, "PRD.md");
     if (!existsSync(prdDest)) {
       cpSync(prdTemplate, prdDest);
-      const spinnerPrd = ora("PRD.md template instalado").start();
-      spinnerPrd.succeed("PRD.md template instalado (preencha com os requisitos do produto)");
+      const spinnerPrd = ora("PRD.md template installed").start();
+      spinnerPrd.succeed("PRD.md template installed (fill in your product requirements)");
     }
   }
 
-  // 3. Skills canônicas (sempre, para Deep Agents e referência)
-  const spinner2 = ora("Instalando skills canônicas").start();
-  const skillsDest = join(targetDir, "skills");
-  ensureDir(skillsDest);
-  for (const skill of skills) {
-    copyDir(skill.dir, join(skillsDest, skill.name));
-  }
-  spinner2.succeed(`${skills.length} skills canônicas em skills/`);
-
-  // 3. LangChain Skills (para bundles de AI)
+  // 3. LangChain Skills (for AI bundles)
   if (bundleName === "ai-agents" || bundleName === "ai-agents-deep") {
-    const spinnerLc = ora("Instalando LangChain Skills (langchain-ai/langchain-skills)").start();
+    const spinnerLc = ora("Installing LangChain Skills (langchain-ai/langchain-skills)").start();
     try {
-      // Instalar todas as 11 skills do LangChain para o editor escolhido
+      // Install all 11 LangChain skills for the chosen editor
       const agentFlag = primaryEditor === "cursor" ? "cursor" : primaryEditor === "codex" ? "codex" : "claude-code";
       execSync(
         `npx skills add langchain-ai/langchain-skills --agent ${agentFlag} --skill "*" --yes`,
         { stdio: "pipe", timeout: 120000, cwd: targetDir, shell: true }
       );
-      spinnerLc.succeed("11 LangChain Skills instaladas (framework-selection, langchain-*, langgraph-*, deep-agents-*)");
+      spinnerLc.succeed("11 LangChain Skills installed (framework-selection, langchain-*, langgraph-*, deep-agents-*)");
     } catch {
-      // Fallback: tentar sem --agent
+      // Fallback: try without --agent
       try {
         execSync(
           `npx skills add langchain-ai/langchain-skills --skill "*" --yes`,
           { stdio: "pipe", timeout: 120000, cwd: targetDir, shell: true }
         );
-        spinnerLc.succeed("11 LangChain Skills instaladas");
+        spinnerLc.succeed("11 LangChain Skills installed");
       } catch {
-        spinnerLc.warn("Instale manualmente as LangChain Skills:");
+        spinnerLc.warn("Install LangChain Skills manually:");
         console.log(chalk.dim("    npx skills add langchain-ai/langchain-skills --skill '*' --yes"));
       }
     }
   }
 
   // 4. References
-  const spinner3 = ora("Instalando references").start();
+  const spinner3 = ora("Installing references").start();
   const refsSrc = join(bundleDir, "references");
   ensureDir(join(targetDir, "references"));
   if (existsSync(refsSrc)) {
     copyDir(refsSrc, join(targetDir, "references"));
   }
-  spinner3.succeed("references/ pronto");
+  spinner3.succeed("references/ ready");
 
-  // 4. GitHub Spec Kit — instalar CLI + inicializar no projeto
-  // Mapear editor para flag --ai do specify
+  // 4. GitHub Spec Kit — install CLI + initialize in project
+  // Map editor to specify --ai flag
   const aiFlags = {
     claude: "claude",
     cursor: "cursor-agent",
@@ -369,22 +360,22 @@ async function main() {
     copilot: "copilot",
     windsurf: "windsurf",
   };
-  // Usar o primeiro editor como --ai (ou claude como default)
+  // Use first editor as --ai (claude as default)
   const primaryEditor = editorsToInstall[0];
   const aiFlag = aiFlags[primaryEditor] || "claude";
 
-  // 4a. Instalar specify-cli
+  // 4a. Install specify-cli
   const SPECKIT_VERSION = "v0.4.3";
-  const spinner4 = ora("Instalando GitHub Spec Kit (specify-cli)").start();
+  const spinner4 = ora("Installing GitHub Spec Kit (specify-cli)").start();
   let specifyInstalled = false;
 
-  // Verificar se já está instalado (specify não aceita --version, usar --help)
+  // Check if already installed (specify doesn't accept --version, use --help)
   try {
     execSync("specify --help", { stdio: "ignore" });
     specifyInstalled = true;
-    spinner4.succeed("specify-cli já instalado");
+    spinner4.succeed("specify-cli already installed");
   } catch {
-    // Não instalado — instalar
+    // Not installed — installing
     try {
       execSync(`uv tool install specify-cli --from "git+https://github.com/github/spec-kit.git@${SPECKIT_VERSION}"`, {
         stdio: "pipe", timeout: 120000,
@@ -392,27 +383,27 @@ async function main() {
       specifyInstalled = true;
       spinner4.succeed(`specify-cli ${SPECKIT_VERSION} instalado`);
     } catch (err) {
-      // Pode já estar instalado mas uv retorna erro, checar de novo
+      // May already be installed but uv returned error, check again
       try {
         execSync("specify --help", { stdio: "ignore" });
         specifyInstalled = true;
-        spinner4.succeed("specify-cli já instalado");
+        spinner4.succeed("specify-cli already installed");
       } catch {
-        spinner4.warn("Não foi possível instalar. Rode manualmente:");
+        spinner4.warn("Could not install automatically. Run manually:");
         console.log(chalk.dim(`    uv tool install specify-cli --from "git+https://github.com/github/spec-kit.git@${SPECKIT_VERSION}"`));
       }
     }
   }
 
-  // 4b. Rodar specify init no projeto para criar .specify/ e registrar /speckit.* commands
+  // 4b. Run specify init to create .specify/ and register /speckit.* commands
   if (specifyInstalled) {
-    const spinner4c = ora(`Inicializando Spec Kit no projeto (--ai ${aiFlag})`).start();
+    const spinner4c = ora(`Initializing Spec Kit in project (--ai ${aiFlag})`).start();
     const specifyEnv = { ...process.env, PYTHONIOENCODING: "utf-8", PYTHONUTF8: "1" };
     let specInitOk = false;
 
-    // Precisa de "y" piped pois specify pede confirmação se dir não vazio
-    // --script sh para evitar dependência de pwsh no Windows
-    // --ai-skills necessário para codex
+    // Need "y" piped because specify asks confirmation if dir not empty
+    // --script sh to avoid pwsh dependency on Windows
+    // --ai-skills required for codex
     const extraFlags = primaryEditor === "codex" ? " --ai-skills" : "";
     const initCmds = [
       `echo y | specify init . --ai ${aiFlag}${extraFlags} --script sh --force`,
@@ -433,20 +424,20 @@ async function main() {
       } catch { /* try next */ }
     }
     if (specInitOk) {
-      spinner4c.succeed(`Spec Kit inicializado (/speckit.* commands disponíveis)`);
+      spinner4c.succeed(`Spec Kit initialized (/speckit.* commands available)`);
     } else {
-      spinner4c.warn("Inicialize manualmente no terminal:");
+      spinner4c.warn("Initialize manually in your terminal:");
       console.log(chalk.dim(`    cd ${targetDir}`));
       console.log(chalk.dim(`    specify init . --ai ${aiFlag} --script sh`));
     }
 
-    // 4c. Copiar constitution.md do bundle para dentro do .specify/memory/
+    // 4c. Copy bundle constitution.md to .specify/memory/
     const specifyMemoryDir = join(targetDir, ".specify", "memory");
     const bundleConstitution = join(bundleDir, ".spec", "constitution.md");
     if (existsSync(bundleConstitution)) {
       ensureDir(specifyMemoryDir);
       const constitutionDest = join(specifyMemoryDir, "constitution.md");
-      // Append os princípios do bundle ao constitution gerado pelo specify
+      // Append bundle principles to constitution generated by specify
       if (existsSync(constitutionDest)) {
         const existing = readFileSync(constitutionDest, "utf-8");
         const bundleContent = readFileSync(bundleConstitution, "utf-8");
@@ -454,8 +445,8 @@ async function main() {
       } else {
         cpSync(bundleConstitution, constitutionDest);
       }
-      const spinner4d = ora("Constitution do bundle integrado ao Spec Kit").start();
-      spinner4d.succeed("Constitution do bundle integrado ao Spec Kit");
+      const spinner4d = ora("Bundle constitution integrated with Spec Kit").start();
+      spinner4d.succeed("Bundle constitution integrated with Spec Kit");
     }
   }
 
@@ -463,19 +454,19 @@ async function main() {
   console.log("");
   console.log(chalk.green.bold("  Pronto!"));
   console.log("");
-  console.log("  Estrutura instalada:");
+  console.log("  Files installed:");
 
   for (const editorKey of editorsToInstall) {
     const e = EDITORS[editorKey];
     console.log(`    ${chalk.yellow(e.name)}:`);
     if (editorKey === "claude") {
       console.log(`      ${chalk.cyan("CLAUDE.md")} → @AGENTS.md`);
-      console.log(`      ${chalk.cyan(".claude/skills/")} (${skills.length} skills com SKILL.md)`);
+      console.log(`      ${chalk.cyan(".claude/skills/")} (${skills.length} skills with SKILL.md)`);
     } else if (editorKey === "cursor") {
-      console.log(`      ${chalk.cyan("AGENTS.md")} (instruções gerais)`);
-      console.log(`      ${chalk.cyan(".cursor/skills/")} (${skills.length} skills com SKILL.md)`);
+      console.log(`      ${chalk.cyan("AGENTS.md")} (general instructions)`);
+      console.log(`      ${chalk.cyan(".cursor/skills/")} (${skills.length} skills with SKILL.md)`);
     } else if (editorKey === "codex") {
-      console.log(`      ${chalk.cyan("AGENTS.md")} (tudo em um arquivo)`);
+      console.log(`      ${chalk.cyan("AGENTS.md")} (all in one file)`);
     } else if (editorKey === "copilot") {
       console.log(`      ${chalk.cyan(".github/copilot-instructions.md")}`);
       console.log(`      ${chalk.cyan(".github/instructions/")} (${skills.length} .instructions.md)`);
@@ -483,18 +474,18 @@ async function main() {
       console.log(`      ${chalk.cyan(".windsurfrules")}`);
     }
   }
-  console.log(`    ${chalk.cyan("skills/")} (${skills.length} canônicas para Deep Agents)`);
+  console.log(`    ${chalk.cyan("skills/")} (${skills.length} canonical for Deep Agents)`);
   console.log(`    ${chalk.cyan(".specify/")} (GitHub Spec Kit — /speckit.* commands)`);
   console.log("");
-  console.log("  Comandos SDD disponíveis no editor:");
-  console.log(`    ${chalk.cyan("/speckit.constitution")}  — Definir princípios do projeto`);
-  console.log(`    ${chalk.cyan("/speckit.specify")}       — Especificar O QUE e POR QUÊ`);
-  console.log(`    ${chalk.cyan("/speckit.plan")}          — Planejar arquitetura e stack`);
-  console.log(`    ${chalk.cyan("/speckit.tasks")}         — Quebrar em tasks atômicas`);
-  console.log(`    ${chalk.cyan("/speckit.implement")}     — Executar as tasks`);
+  console.log("  SDD commands available in your editor:");
+  console.log(`    ${chalk.cyan("/speckit.constitution")}  — Define project principles`);
+  console.log(`    ${chalk.cyan("/speckit.specify")}       — Specify WHAT and WHY`);
+  console.log(`    ${chalk.cyan("/speckit.plan")}          — Plan architecture and stack`);
+  console.log(`    ${chalk.cyan("/speckit.tasks")}         — Break into atomic tasks`);
+  console.log(`    ${chalk.cyan("/speckit.implement")}     — Execute tasks`);
   console.log("");
-  console.log("  Próximo passo:");
-  console.log("    Abra o projeto no editor AI e use " + chalk.cyan("/speckit.specify") + " para começar");
+  console.log("  Next step:");
+  console.log("    Open your project in your AI editor and use " + chalk.cyan("/speckit.specify") + " to get started");
   console.log("");
 }
 

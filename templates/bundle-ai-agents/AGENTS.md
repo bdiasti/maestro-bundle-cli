@@ -1,58 +1,58 @@
-# Projeto: Sistema Multi-Agente com AI
+# Project: Multi-Agent System with AI
 
-Você está construindo um sistema de agentes AI com orquestração, RAG e execução autônoma de tarefas. O backend é Python com FastAPI, a orquestração usa LangChain + LangGraph, e a infra roda em containers.
+You are building an AI agent system with orchestration, RAG, and autonomous task execution. The backend is Python with FastAPI, orchestration uses LangChain + LangGraph, and the infrastructure runs in containers.
 
 ## Specification-Driven Development (SDD)
 
-A regra fundamental de SDD está definida no bundle-base (AGENTS.md base) e é inegociável:
-**Sem spec, sem código. Sem exceção.** O agente deve recusar implementar qualquer demanda que
-não tenha passado pelo fluxo `/speckit.specify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.implement`.
+The fundamental SDD rule is defined in the bundle-base (base AGENTS.md) and is non-negotiable:
+**No spec, no code. No exception.** The agent must refuse to implement any demand that
+has not gone through the `/speckit.specify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.implement` flow.
 
-Se o usuário pedir para codar algo sem spec, PARE e inicie o fluxo SDD primeiro.
-Consulte `.specify/specs/` para verificar se já existe spec para a demanda.
+If the user asks to code something without a spec, STOP and initiate the SDD flow first.
+Check `.specify/specs/` to verify if a spec already exists for the demand.
 
 ## Product Requirements Document
 
-O arquivo `PRD.md` na raiz do projeto contém os requisitos do produto definidos pelo analista/dev. Consulte-o para entender O QUE construir, as user stories, critérios de aceite, modelo de dados e API specification. Este AGENTS.md define COMO o agente deve trabalhar; o PRD define O QUE deve ser construído.
+The `PRD.md` file at the project root contains the product requirements defined by the analyst/dev. Consult it to understand WHAT to build, the user stories, acceptance criteria, data model, and API specification. This AGENTS.md defines HOW the agent should work; the PRD defines WHAT should be built.
 
-- `PRD.md` — Requisitos do produto, user stories, API spec, modelo de dados
+- `PRD.md` — Product requirements, user stories, API spec, data model
 
 ## References
 
-Documentos de referência que o agente deve consultar quando necessário:
+Reference documents that the agent should consult when necessary:
 
-- `references/fastapi-patterns.md` — Padrões de endpoints FastAPI
-- `references/langgraph-patterns.md` — Padrões de grafos LangGraph
-- `references/rag-best-practices.md` — Melhores práticas de RAG
-- `references/eval-framework.md` — Framework de avaliação de agentes
+- `references/fastapi-patterns.md` — FastAPI endpoint patterns
+- `references/langgraph-patterns.md` — LangGraph graph patterns
+- `references/rag-best-practices.md` — RAG best practices
+- `references/eval-framework.md` — Agent evaluation framework
 
-## Stack do projeto
+## Project Stack
 
-- **Linguagem:** Python 3.11+
-- **Agentes:** LangChain + LangGraph + Deep Agents
+- **Language:** Python 3.11+
+- **Agents:** LangChain + LangGraph + Deep Agents
 - **API:** FastAPI
-- **Banco:** PostgreSQL (relacional + pgvector para RAG)
-- **Cache/Filas:** Redis Streams
-- **Embeddings:** text-embedding-3-large ou multilingual-e5-large
-- **Observabilidade:** Langfuse (self-hosted)
+- **Database:** PostgreSQL (relational + pgvector for RAG)
+- **Cache/Queues:** Redis Streams
+- **Embeddings:** text-embedding-3-large or multilingual-e5-large
+- **Observability:** Langfuse (self-hosted)
 - **Containers:** Docker + K3s
-- **Testes:** Pytest + evals customizados
+- **Tests:** Pytest + custom evals
 
-## Estrutura do projeto
+## Project Structure
 
 ```
 src/
-├── agents/                     # Definição dos agentes
+├── agents/                     # Agent definitions
 │   ├── orchestrator/
-│   │   ├── agent.py            # Deep Agent orquestrador
-│   │   ├── state.py            # AgentState do LangGraph
-│   │   ├── nodes.py            # Nós do grafo
-│   │   ├── tools.py            # Tools do agente
-│   │   └── prompts.py          # System prompts versionados
+│   │   ├── agent.py            # Orchestrator Deep Agent
+│   │   ├── state.py            # LangGraph AgentState
+│   │   ├── nodes.py            # Graph nodes
+│   │   ├── tools.py            # Agent tools
+│   │   └── prompts.py          # Versioned system prompts
 │   ├── frontend_agent/
 │   ├── backend_agent/
 │   └── devops_agent/
-├── domain/                     # Clean Architecture — regras de negócio
+├── domain/                     # Clean Architecture — business rules
 │   ├── entities/
 │   ├── value_objects/
 │   ├── events/
@@ -62,82 +62,82 @@ src/
 │   ├── use_cases/
 │   ├── dtos/
 │   └── mappers/
-├── infrastructure/             # Implementações (adapters)
+├── infrastructure/             # Implementations (adapters)
 │   ├── persistence/
 │   ├── mcp/
 │   ├── langfuse/
 │   └── config/
-├── rag/                        # Pipeline de RAG
+├── rag/                        # RAG Pipeline
 │   ├── ingest.py
 │   ├── retriever.py
 │   ├── embeddings.py
 │   └── reranker.py
-├── api/                        # Endpoints REST + WebSocket
+├── api/                        # REST + WebSocket endpoints
 │   ├── controllers/
 │   └── middlewares/
-├── evals/                      # Avaliação dos agentes
+├── evals/                      # Agent evaluation
 │   ├── golden_dataset.json
 │   ├── evaluators.py
 │   ├── run_evals.py
 │   └── judges.py
-└── memory/                     # Memória longo prazo
+└── memory/                     # Long-term memory
     ├── store.py
     └── checkpointer.py
 ```
 
-## Padrões de código
+## Code Standards
 
-- Máximo 500 linhas por arquivo, 20 linhas por função
-- Type hints em funções públicas
-- f-strings para interpolação
-- Black + Ruff para formatação
-- Nomes descritivos, sem abreviações
-- Guard clauses em vez de ifs aninhados
-- Tratar exceções com tipos específicos, nunca `except Exception` vazio
+- Maximum 500 lines per file, 20 lines per function
+- Type hints on public functions
+- f-strings for interpolation
+- Black + Ruff for formatting
+- Descriptive names, no abbreviations
+- Guard clauses instead of nested ifs
+- Handle exceptions with specific types, never empty `except Exception`
 
-## Padrões de agentes
+## Agent Standards
 
-- Cada agente tem UMA responsabilidade
-- System prompts versionados em `prompts.py`, nunca hardcoded
-- Tools com nomes claros, descrições precisas e schemas Pydantic
-- Timeout e limite de iterações em todo loop
-- Human-in-the-loop para: merge, deploy, delete, operações destrutivas
-- Traces no Langfuse para toda execução
-- Eval com golden dataset antes de deploy
+- Each agent has ONE responsibility
+- System prompts versioned in `prompts.py`, never hardcoded
+- Tools with clear names, precise descriptions, and Pydantic schemas
+- Timeout and iteration limits on every loop
+- Human-in-the-loop for: merge, deploy, delete, destructive operations
+- Traces in Langfuse for every execution
+- Eval with golden dataset before deploy
 
 ## Context Engineering
 
-- **Write:** Este CLAUDE.md + skills por contexto
-- **Select:** RAG para injetar contexto relevante ao agente
-- **Compress:** Summarization de código longo antes de enviar
-- **Isolate:** Cada agente com contexto isolado (worktree + janela separada)
+- **Write:** This CLAUDE.md + skills per context
+- **Select:** RAG to inject relevant context to the agent
+- **Compress:** Summarization of long code before sending
+- **Isolate:** Each agent with isolated context (worktree + separate window)
 
 ## RAG
 
 - RecursiveCharacterTextSplitter (chunk 1000, overlap 200)
-- Metadados obrigatórios: source, doc_type, language, created_at
+- Required metadata: source, doc_type, language, created_at
 - Hybrid search: pgvector + ts_vector + RRF
-- Re-ranking com cross-encoder no top-k
-- Testar retrieval quality antes de ir para produção
+- Re-ranking with cross-encoder on top-k
+- Test retrieval quality before going to production
 
 ## Git
 
 - Commits: `feat(agents): adicionar roteamento condicional`
-- Branches: `feature/<modulo>-<descricao>`
-- Nunca commitar secrets, .env, API keys
-- Worktrees isoladas por agente quando em execução paralela
+- Branches: `feature/<module>-<description>`
+- Never commit secrets, .env, API keys
+- Isolated worktrees per agent when running in parallel
 
-## Testes
+## Tests
 
-- Unitários: Value Objects, Entities, regras de domínio (>= 90%)
-- Integração: Repositórios, APIs (>= 70%)
+- Unit: Value Objects, Entities, domain rules (>= 90%)
+- Integration: Repositories, APIs (>= 70%)
 - Evals: Golden dataset + LLM-as-judge + rule-based (>= 80% score)
-- Nome: `test_should_<resultado>_when_<condição>`
+- Naming: `test_should_<result>_when_<condition>`
 
-## Segurança
+## Security
 
-- Rate limiting em todas as APIs
-- Guardrails contra prompt injection nos inputs
-- JWT para autenticação, API keys para agentes
-- HTTPS obrigatório
-- Validar inputs nas fronteiras do sistema
+- Rate limiting on all APIs
+- Guardrails against prompt injection on inputs
+- JWT for authentication, API keys for agents
+- HTTPS mandatory
+- Validate inputs at system boundaries

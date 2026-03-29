@@ -1,50 +1,50 @@
 # Product Requirements Document (PRD)
 
-> Este documento define os requisitos do produto. Deve ser preenchido pelo analista de requisitos e/ou pelo dev antes de iniciar o desenvolvimento. O agente AI usa este documento como contexto para entender O QUE construir.
+> This document defines the product requirements. It should be filled out by the requirements analyst and/or the developer before starting development. The AI agent uses this document as context to understand WHAT to build.
 
-## 1. Resumo Executivo
+## 1. Executive Summary
 
-<!-- Descreva em 2-3 frases o que é o produto e qual problema resolve -->
+<!-- Describe in 2-3 sentences what the product is and what problem it solves -->
 
-## 2. Usuários Alvo
+## 2. Target Users
 
-<!-- Quem vai usar o sistema? Descreva as personas -->
+<!-- Who will use the system? Describe the personas -->
 
-### Persona 1: [Nome]
-- **Perfil:**
-- **Objetivos:**
-- **Dores:**
+### Persona 1: [Name]
+- **Profile:**
+- **Goals:**
+- **Pain points:**
 
-## 3. Escopo do MVP
+## 3. MVP Scope
 
-### Incluído no MVP
+### Included in MVP
 - [ ] Feature 1
 - [ ] Feature 2
 - [ ] Feature 3
 
-### Fora do MVP (futuro)
-- [ ] Feature futura 1
-- [ ] Feature futura 2
+### Out of MVP (future)
+- [ ] Future feature 1
+- [ ] Future feature 2
 
 ## 4. User Stories
 
-### US01: [Título]
-**Como** [persona], **quero** [ação], **para** [benefício].
+### US01: [Title]
+**As** [persona], **I want** [action], **so that** [benefit].
 
-**Critérios de aceite:**
-- [ ] CA1:
-- [ ] CA2:
+**Acceptance criteria:**
+- [ ] AC1:
+- [ ] AC2:
 
-### US02: [Título]
-**Como** [persona], **quero** [ação], **para** [benefício].
+### US02: [Title]
+**As** [persona], **I want** [action], **so that** [benefit].
 
-**Critérios de aceite:**
-- [ ] CA1:
-- [ ] CA2:
+**Acceptance criteria:**
+- [ ] AC1:
+- [ ] AC2:
 
-## 5. Arquitetura de Alto Nível
+## 5. High-Level Architecture
 
-<!-- Diagrama em Mermaid ou ASCII mostrando os componentes principais -->
+<!-- Mermaid or ASCII diagram showing the main components -->
 
 ```mermaid
 graph LR
@@ -52,7 +52,7 @@ graph LR
     B --> C[Database]
 ```
 
-### Estrutura de Diretórios
+### Directory Structure
 
 ```
 project/
@@ -61,29 +61,29 @@ project/
 └── ...
 ```
 
-## 6. Features Detalhadas
+## 6. Detailed Features
 
-### Feature 1: [Nome]
-- **Descrição:**
-- **Regras de negócio:**
+### Feature 1: [Name]
+- **Description:**
+- **Business rules:**
   -
 - **Inputs:**
 - **Outputs:**
 - **Edge cases:**
   -
 
-### Feature 2: [Nome]
-- **Descrição:**
-- **Regras de negócio:**
+### Feature 2: [Name]
+- **Description:**
+- **Business rules:**
   -
 
-## 7. Stack Tecnológica
+## 7. Technology Stack
 
-| Componente | Tecnologia | Justificativa |
+| Component | Technology | Justification |
 |---|---|---|
 | Backend | | |
 | Frontend | | |
-| Banco de dados | | |
+| Database | | |
 | Cache | | |
 | Deploy | | |
 
@@ -92,7 +92,7 @@ project/
 ### Endpoints
 
 #### `GET /api/v1/resource`
-- **Descrição:**
+- **Description:**
 - **Response:** `200 OK`
 ```json
 {
@@ -104,7 +104,7 @@ project/
 ```
 
 #### `POST /api/v1/resource`
-- **Descrição:**
+- **Description:**
 - **Body:**
 ```json
 {
@@ -113,7 +113,7 @@ project/
 ```
 - **Response:** `201 Created`
 
-## 9. Modelo de Dados
+## 9. Data Model
 
 ```sql
 CREATE TABLE example (
@@ -123,39 +123,39 @@ CREATE TABLE example (
 );
 ```
 
-## 10. Requisitos Não-Funcionais
+## 10. Non-Functional Requirements
 
-| Requisito | Alvo | Prioridade |
+| Requirement | Target | Priority |
 |---|---|---|
-| Performance | Response time < 500ms | Alta |
-| Disponibilidade | 99.9% uptime | Média |
-| Segurança | OWASP Top 10 | Alta |
-| Escalabilidade | Até X usuários simultâneos | Média |
+| Performance | Response time < 500ms | High |
+| Availability | 99.9% uptime | Medium |
+| Security | OWASP Top 10 | High |
+| Scalability | Up to X simultaneous users | Medium |
 
-## 11. Fases de Implementação
+## 11. Implementation Phases
 
-### Fase 1: Foundation
-- [ ] Setup do projeto
-- [ ] Modelo de dados
-- [ ] Endpoints básicos
+### Phase 1: Foundation
+- [ ] Project setup
+- [ ] Data model
+- [ ] Basic endpoints
 
-### Fase 2: Core Features
-- [ ] Feature 1 completa
-- [ ] Feature 2 completa
+### Phase 2: Core Features
+- [ ] Feature 1 complete
+- [ ] Feature 2 complete
 
-### Fase 3: Polish
-- [ ] Testes E2E
+### Phase 3: Polish
+- [ ] E2E tests
 - [ ] Performance
-- [ ] Documentação
+- [ ] Documentation
 
-## 12. Riscos e Mitigações
+## 12. Risks and Mitigations
 
-| Risco | Impacto | Probabilidade | Mitigação |
+| Risk | Impact | Probability | Mitigation |
 |---|---|---|---|
 | | | | |
 
-## 13. Critérios de Sucesso
+## 13. Success Criteria
 
-- [ ] Critério 1
-- [ ] Critério 2
-- [ ] Critério 3
+- [ ] Criterion 1
+- [ ] Criterion 2
+- [ ] Criterion 3

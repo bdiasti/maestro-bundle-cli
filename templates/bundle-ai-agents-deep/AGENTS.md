@@ -1,55 +1,55 @@
-# Projeto: Deep Agent (tipo Claude Code)
+# Project: Deep Agent (Claude Code-like)
 
-Você está construindo um Deep Agent — um agente AI autônomo que pode planejar, executar tarefas, gerenciar arquivos, delegar para subagentes e interagir com o usuário. Similar ao Claude Code, Cursor Agent ou Codex. Construído com o framework Deep Agents do LangChain.
+You are building a Deep Agent — an autonomous AI agent that can plan, execute tasks, manage files, delegate to subagents, and interact with the user. Similar to Claude Code, Cursor Agent, or Codex. Built with the LangChain Deep Agents framework.
 
 ## Specification-Driven Development (SDD)
 
-A regra fundamental de SDD está definida no bundle-base (AGENTS.md base) e é inegociável:
-**Sem spec, sem código. Sem exceção.** O agente deve recusar implementar qualquer demanda que
-não tenha passado pelo fluxo `/speckit.specify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.implement`.
+The fundamental SDD rule is defined in the bundle-base (base AGENTS.md) and is non-negotiable:
+**No spec, no code. No exception.** The agent must refuse to implement any demand that
+has not gone through the `/speckit.specify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.implement` flow.
 
-Se o usuário pedir para codar algo sem spec, PARE e inicie o fluxo SDD primeiro.
-Consulte `.specify/specs/` para verificar se já existe spec para a demanda.
+If the user asks to code something without a spec, STOP and initiate the SDD flow first.
+Check `.specify/specs/` to verify if a spec already exists for the demand.
 
 ## Product Requirements Document
 
-O arquivo `PRD.md` na raiz do projeto contém os requisitos do produto definidos pelo analista/dev. Consulte-o para entender O QUE construir. Este AGENTS.md define COMO o agente deve trabalhar; o PRD define O QUE deve ser construído.
+The `PRD.md` file at the project root contains the product requirements defined by the analyst/dev. Consult it to understand WHAT to build. This AGENTS.md defines HOW the agent should work; the PRD defines WHAT should be built.
 
-- `PRD.md` — Requisitos do produto, user stories, API spec, modelo de dados
+- `PRD.md` — Product requirements, user stories, API spec, data model
 
-## Stack do projeto
+## Project Stack
 
-- **Linguagem:** Python 3.11+
+- **Language:** Python 3.11+
 - **Framework:** Deep Agents SDK (`deepagents`)
-- **Execução:** LangGraph (por baixo)
-- **Modelos:** Claude (Anthropic), GPT (OpenAI), Gemini (Google), Ollama (local)
+- **Execution:** LangGraph (under the hood)
+- **Models:** Claude (Anthropic), GPT (OpenAI), Gemini (Google), Ollama (local)
 - **Backends:** StateBackend, FilesystemBackend, StoreBackend, LocalShellBackend, Sandboxes
-- **API:** FastAPI (para servir o agente como API)
-- **Observabilidade:** LangSmith ou Langfuse
-- **Testes:** Pytest + evals customizados
+- **API:** FastAPI (to serve the agent as an API)
+- **Observability:** LangSmith or Langfuse
+- **Tests:** Pytest + custom evals
 
-## Estrutura do projeto
+## Project Structure
 
 ```
 src/
-├── agent/                      # Definição do Deep Agent principal
-│   ├── main.py                 # create_deep_agent + configuração
-│   ├── tools.py                # Tools customizadas
-│   ├── subagents.py            # Definição de subagentes
-│   ├── middleware.py            # Middleware customizado
-│   └── prompts.py              # System prompts versionados
-├── skills/                     # Skills que o agente pode carregar
+├── agent/                      # Main Deep Agent definition
+│   ├── main.py                 # create_deep_agent + configuration
+│   ├── tools.py                # Custom tools
+│   ├── subagents.py            # Subagent definitions
+│   ├── middleware.py            # Custom middleware
+│   └── prompts.py              # Versioned system prompts
+├── skills/                     # Skills the agent can load
 │   ├── code-review/SKILL.md
 │   ├── deploy/SKILL.md
 │   └── ...
-├── backends/                   # Configuração de backends
+├── backends/                   # Backend configuration
 │   ├── filesystem.py
 │   ├── store.py
 │   └── composite.py
-├── api/                        # Servir agente como API (opcional)
+├── api/                        # Serve agent as API (optional)
 │   ├── server.py               # FastAPI
 │   └── websocket.py            # Streaming via WebSocket
-├── evals/                      # Avaliação do agente
+├── evals/                      # Agent evaluation
 │   ├── golden_dataset.json
 │   ├── evaluators.py
 │   └── run_evals.py
@@ -58,48 +58,48 @@ src/
     └── models.py
 ```
 
-## Padrões de código
+## Code Standards
 
-- Máximo 500 linhas por arquivo, 20 linhas por função
-- Type hints em funções públicas
+- Maximum 500 lines per file, 20 lines per function
+- Type hints on public functions
 - f-strings, Black + Ruff
-- Nomes descritivos, guard clauses
-- Tratar exceções com tipos específicos
+- Descriptive names, guard clauses
+- Handle exceptions with specific types
 
-## Padrões de Deep Agent
+## Deep Agent Standards
 
-- System prompts versionados em `prompts.py`, nunca hardcoded
-- Tools com schemas Pydantic e descrições claras
-- Cada subagente tem UMA responsabilidade
-- Human-in-the-loop para operações destrutivas (delete, deploy, email)
-- Timeout e max_iterations em todo agente
-- Checkpointer obrigatório para persistência de estado
-- Backend explícito (nunca confiar no default em produção)
-- Skills carregadas on-demand, nunca todas no system prompt
+- System prompts versioned in `prompts.py`, never hardcoded
+- Tools with Pydantic schemas and clear descriptions
+- Each subagent has ONE responsibility
+- Human-in-the-loop for destructive operations (delete, deploy, email)
+- Timeout and max_iterations on every agent
+- Checkpointer mandatory for state persistence
+- Explicit backend (never rely on the default in production)
+- Skills loaded on-demand, never all in the system prompt
 
-## Middleware obrigatório
+## Mandatory Middleware
 
-O Deep Agent já vem com middleware padrão que não deve ser desabilitado:
-- **TodoListMiddleware** — Planejamento de tarefas
-- **FilesystemMiddleware** — Gerenciamento de arquivos
-- **SubAgentMiddleware** — Delegação para subagentes
-- **SummarizationMiddleware** — Compressão de contexto
+The Deep Agent comes with default middleware that should not be disabled:
+- **TodoListMiddleware** — Task planning
+- **FilesystemMiddleware** — File management
+- **SubAgentMiddleware** — Delegation to subagents
+- **SummarizationMiddleware** — Context compression
 
 ## Git
 
-- Commits: `feat(agent): adicionar tool de busca semântica`
-- Branches: `feature/<componente>-<descricao>`
-- Nunca commitar API keys, .env
+- Commits: `feat(agent): add semantic search tool`
+- Branches: `feature/<component>-<description>`
+- Never commit API keys, .env
 
-## Testes
+## Tests
 
-- Testes unitários para tools e middleware
-- Testes de integração para o agente completo
-- Evals com golden dataset + LLM-as-judge
-- Cobertura mínima: 80%
+- Unit tests for tools and middleware
+- Integration tests for the full agent
+- Evals with golden dataset + LLM-as-judge
+- Minimum coverage: 80%
 
 ## References
 
-- `references/deep-agents-api.md` — API reference do Deep Agents SDK
-- `references/backends-guide.md` — Guia de backends e quando usar cada um
-- `references/middleware-guide.md` — Middleware padrão e customizado
+- `references/deep-agents-api.md` — Deep Agents SDK API reference
+- `references/backends-guide.md` — Backends guide and when to use each one
+- `references/middleware-guide.md` — Default and custom middleware

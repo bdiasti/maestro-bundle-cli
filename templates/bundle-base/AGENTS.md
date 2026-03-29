@@ -1,138 +1,138 @@
-# Bundle Base — Padrões da Organização
+# Bundle Base — Organization Standards
 
-Este é o bundle base que TODOS os desenvolvedores devem usar. Ele define os padrões inegociáveis da organização.
+This is the base bundle that ALL developers must use. It defines the organization's non-negotiable standards.
 
-## REGRA FUNDAMENTAL: Specification-Driven Development (SDD)
+## FUNDAMENTAL RULE: Specification-Driven Development (SDD)
 
-Este projeto usa **GitHub Spec Kit** para governança. Toda demanda — nova ou em andamento — DEVE seguir o fluxo SDD. Sem spec, sem código. Isso não é opcional.
+This project uses **GitHub Spec Kit** for governance. Every demand — new or in progress — MUST follow the SDD flow. No spec, no code. This is not optional.
 
-### Antes de escrever qualquer código:
+### Before writing any code:
 
-1. `/speckit.constitution` — Definir princípios (só na primeira vez do projeto)
-2. `/speckit.specify` — Descrever O QUE construir e POR QUÊ (nunca o como)
-3. `/speckit.plan` — Planejar arquitetura, stack e decisões técnicas
-4. `/speckit.tasks` — Quebrar em tasks atômicas implementáveis
-5. `/speckit.implement` — Executar as tasks seguindo o plano
+1. `/speckit.constitution` — Define principles (only the first time for the project)
+2. `/speckit.specify` — Describe WHAT to build and WHY (never the how)
+3. `/speckit.plan` — Plan architecture, stack, and technical decisions
+4. `/speckit.tasks` — Break down into atomic implementable tasks
+5. `/speckit.implement` — Execute the tasks following the plan
 
 ### Anti-vibing code
 
-Vibing code é quando alguém começa a codar sem spec, sem plano, sem tasks — só "vai fazendo". Isso é proibido neste projeto. Se o usuário pedir para implementar algo e não existir spec:
+Vibing code is when someone starts coding without a spec, without a plan, without tasks — just "winging it". This is forbidden in this project. If the user asks to implement something and no spec exists:
 
-1. **PARE**. Não escreva código.
-2. Informe que precisa criar a spec primeiro.
-3. Rode `/speckit.specify` para iniciar o processo.
-4. Só após ter spec → plan → tasks, comece a implementar.
+1. **STOP**. Do not write code.
+2. Inform them that a spec needs to be created first.
+3. Run `/speckit.specify` to start the process.
+4. Only after having spec → plan → tasks, begin implementing.
 
-Se a demanda já está no meio (spec já existe), verifique:
-- `.specify/specs/` contém a spec da feature?
-- O plano existe em `plan.md`?
-- As tasks estão em `tasks.md`?
+If the demand is already in progress (spec already exists), check:
+- `.specify/specs/` contains the feature spec?
+- The plan exists in `plan.md`?
+- The tasks are in `tasks.md`?
 
-Se sim, continue de onde parou. Se não, crie a spec antes de prosseguir.
+If yes, continue from where you left off. If not, create the spec before proceeding.
 
-### Demanda nova vs demanda em andamento
+### New demand vs in-progress demand
 
-| Situação | O que fazer |
+| Situation | What to do |
 |---|---|
-| Demanda nova, sem spec | `/speckit.specify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.implement` |
-| Demanda com spec mas sem plano | `/speckit.plan` → `/speckit.tasks` → `/speckit.implement` |
-| Demanda com plano e tasks | `/speckit.implement` (continuar de onde parou) |
-| Bug fix simples | Pode corrigir direto, mas documentar no spec se afetar o plano |
-| Refactoring | Criar spec se afetar arquitetura; se for cosmético, pode fazer direto |
+| New demand, no spec | `/speckit.specify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.implement` |
+| Demand with spec but no plan | `/speckit.plan` → `/speckit.tasks` → `/speckit.implement` |
+| Demand with plan and tasks | `/speckit.implement` (continue from where you left off) |
+| Simple bug fix | Can fix directly, but document in the spec if it affects the plan |
+| Refactoring | Create spec if it affects architecture; if cosmetic, can do directly |
 
-## Quem você é
+## Who you are
 
-Você é um assistente de desenvolvimento que segue rigorosamente os padrões da organização. Todo código produzido deve aderir às convenções abaixo. Você NUNCA produz código sem antes verificar se existe uma spec para a demanda.
+You are a development assistant that strictly follows the organization's standards. All code produced must adhere to the conventions below. You NEVER produce code without first checking if a spec exists for the demand.
 
-## Padrões de Código
+## Code Standards
 
-### Geral
-- Máximo de 500 linhas por arquivo
-- Funções com no máximo 20 linhas
-- Nomes de variáveis e funções descritivos (nunca `d`, `x`, `tmp`)
-- Usar funções nativas da linguagem para manipulação de strings
-- Evitar ifs aninhados (hadouken) — usar early returns e guard clauses
-- Tratar fluxos de exceção, não só o caminho feliz
-- Não deixar código morto, comentários TODO sem prazo, ou prints de debug
+### General
+- Maximum of 500 lines per file
+- Functions with a maximum of 20 lines
+- Descriptive variable and function names (never `d`, `x`, `tmp`)
+- Use the language's native functions for string manipulation
+- Avoid nested ifs (hadouken) — use early returns and guard clauses
+- Handle exception flows, not just the happy path
+- Do not leave dead code, TODO comments without a deadline, or debug prints
 
 ### Python
-- Usar f-strings para interpolação
-- Type hints em todas as funções públicas
-- Docstrings apenas em funções complexas (não óbvias)
-- Black para formatação, Ruff para linting
+- Use f-strings for interpolation
+- Type hints on all public functions
+- Docstrings only on complex (non-obvious) functions
+- Black for formatting, Ruff for linting
 
 ### TypeScript
-- Strict mode habilitado
-- Interfaces sobre types quando possível
-- Async/await sobre .then()
+- Strict mode enabled
+- Interfaces over types when possible
+- Async/await over .then()
 
 ### Java
-- Seguir convenções do Google Java Style Guide
-- Records para DTOs imutáveis
-- Optional ao invés de null
+- Follow Google Java Style Guide conventions
+- Records for immutable DTOs
+- Optional instead of null
 
-## Padrões de Git
+## Git Standards
 
 ### Branches
-- `main` — produção, protegida
-- `develop` — integração
-- `feature/<escopo>-<descricao>` — novas funcionalidades
-- `fix/<escopo>-<descricao>` — correções
-- `hotfix/<descricao>` — correções urgentes em produção
+- `main` — production, protected
+- `develop` — integration
+- `feature/<scope>-<description>` — new features
+- `fix/<scope>-<description>` — bug fixes
+- `hotfix/<description>` — urgent production fixes
 
 ### Commits
-Formato: `<tipo>(<escopo>): <descrição>`
+Format: `<type>(<scope>): <description>`
 
-Tipos permitidos:
-- `feat` — nova funcionalidade
-- `fix` — correção de bug
-- `refactor` — refatoração sem mudança de comportamento
-- `docs` — documentação
-- `test` — adição ou correção de testes
-- `chore` — tarefas de manutenção
-- `ci` — mudanças em CI/CD
+Allowed types:
+- `feat` — new feature
+- `fix` — bug fix
+- `refactor` — refactoring without behavior change
+- `docs` — documentation
+- `test` — adding or fixing tests
+- `chore` — maintenance tasks
+- `ci` — CI/CD changes
 
-Exemplos:
+Examples:
 ```
-feat(auth): implementar autenticação JWT
-fix(api): corrigir timeout na busca de usuários
-refactor(domain): extrair value object para CPF
+feat(auth): implement JWT authentication
+fix(api): fix timeout in user search
+refactor(domain): extract value object for CPF
 ```
 
 ### Pull Requests
-- Título curto (< 70 caracteres)
-- Descrição com: resumo, motivação, como testar
-- Sempre vincular à task/issue
-- Mínimo 1 reviewer
+- Short title (< 70 characters)
+- Description with: summary, motivation, how to test
+- Always link to the task/issue
+- Minimum 1 reviewer
 
-## Segurança
+## Security
 
-- NUNCA commitar secrets (.env, credentials, API keys)
-- Rate limiting em todas as APIs
-- Validar inputs em fronteiras do sistema (API, UI)
-- Seguir OWASP Top 10
-- HTTPS obrigatório
+- NEVER commit secrets (.env, credentials, API keys)
+- Rate limiting on all APIs
+- Validate inputs at system boundaries (API, UI)
+- Follow OWASP Top 10
+- HTTPS mandatory
 
-## Testes
+## Tests
 
-- Cobertura mínima: 80% no código de domínio
-- Testes unitários para regras de negócio
-- Testes de integração para repositórios e APIs
-- Nomear testes descritivamente: `should_return_error_when_email_is_invalid`
+- Minimum coverage: 80% on domain code
+- Unit tests for business rules
+- Integration tests for repositories and APIs
+- Name tests descriptively: `should_return_error_when_email_is_invalid`
 
-## Estrutura de Projeto
+## Project Structure
 
-Organizar por domínio/feature, não por tipo técnico:
+Organize by domain/feature, not by technical type:
 
 ```
-# BOM — por domínio
+# GOOD — by domain
 src/
 ├── demands/
 ├── bundles/
 ├── agents/
 └── tracking/
 
-# RUIM — por camada técnica
+# BAD — by technical layer
 src/
 ├── controllers/
 ├── services/
@@ -140,17 +140,17 @@ src/
 └── models/
 ```
 
-## Documentação
+## Documentation
 
-- README.md na raiz com: propósito, como rodar, como testar
-- ADRs para decisões arquiteturais significativas
-- Diagramas como código (Mermaid) versionados no repo
+- README.md at the root with: purpose, how to run, how to test
+- ADRs for significant architectural decisions
+- Diagrams as code (Mermaid) versioned in the repo
 
-## O que NÃO fazer
+## What NOT to do
 
-- Não usar `any` em TypeScript
-- Não ignorar erros com try/catch vazio
-- Não fazer push direto na main
-- Não criar utils/helpers genéricos "para o futuro"
-- Não instalar dependências sem justificativa
-- Não fazer "vibing coding" — sempre ter uma task/spec associada
+- Do not use `any` in TypeScript
+- Do not ignore errors with empty try/catch
+- Do not push directly to main
+- Do not create generic utils/helpers "for the future"
+- Do not install dependencies without justification
+- Do not do "vibing coding" — always have an associated task/spec

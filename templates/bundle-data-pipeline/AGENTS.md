@@ -1,65 +1,65 @@
-# Projeto: Pipeline de Dados e ML
+# Project: Data and ML Pipeline
 
-Você está construindo um pipeline de dados que inclui ingestão, processamento, treinamento de modelos e serving. O projeto usa Python com foco em engenharia de dados e machine learning.
+You are building a data pipeline that includes ingestion, processing, model training, and serving. The project uses Python with a focus on data engineering and machine learning.
 
 ## Specification-Driven Development (SDD)
 
-A regra fundamental de SDD está definida no bundle-base (AGENTS.md base) e é inegociável:
-**Sem spec, sem código. Sem exceção.** O agente deve recusar implementar qualquer demanda que
-não tenha passado pelo fluxo `/speckit.specify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.implement`.
+The fundamental SDD rule is defined in the bundle-base (base AGENTS.md) and is non-negotiable:
+**No spec, no code. No exception.** The agent must refuse to implement any demand that
+has not gone through the `/speckit.specify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.implement` flow.
 
-Se o usuário pedir para codar algo sem spec, PARE e inicie o fluxo SDD primeiro.
-Consulte `.specify/specs/` para verificar se já existe spec para a demanda.
+If the user asks to code something without a spec, STOP and initiate the SDD flow first.
+Check `.specify/specs/` to verify if a spec already exists for the demand.
 
 ## Product Requirements Document
 
-O arquivo `PRD.md` na raiz do projeto contém os requisitos do produto definidos pelo analista/dev. Consulte-o para entender O QUE construir, as user stories, critérios de aceite, modelo de dados e API specification. Este AGENTS.md define COMO o agente deve trabalhar; o PRD define O QUE deve ser construído.
+The `PRD.md` file at the project root contains the product requirements defined by the analyst/dev. Consult it to understand WHAT to build, the user stories, acceptance criteria, data model, and API specification. This AGENTS.md defines HOW the agent should work; the PRD defines WHAT should be built.
 
-- `PRD.md` — Requisitos do produto, user stories, API spec, modelo de dados
+- `PRD.md` — Product requirements, user stories, API spec, data model
 
 ## References
 
-Documentos de referência que o agente deve consultar quando necessário:
+Reference documents that the agent should consult when necessary:
 
-- `references/pandas-patterns.md` — Padrões de transformação com Pandas
-- `references/mlflow-guide.md` — Guia de experiment tracking
-- `references/data-validation.md` — Validação com Pandera/Great Expectations
+- `references/pandas-patterns.md` — Pandas transformation patterns
+- `references/mlflow-guide.md` — Experiment tracking guide
+- `references/data-validation.md` — Validation with Pandera/Great Expectations
 
-## Stack do projeto
+## Project Stack
 
-- **Linguagem:** Python 3.11+
-- **Dados:** Pandas, Polars, NumPy
+- **Language:** Python 3.11+
+- **Data:** Pandas, Polars, NumPy
 - **ML:** Scikit-learn, XGBoost, LightGBM
-- **Deep Learning:** PyTorch (quando necessário)
-- **Pipeline:** Apache Airflow ou Prefect
+- **Deep Learning:** PyTorch (when needed)
+- **Pipeline:** Apache Airflow or Prefect
 - **Experiment Tracking:** MLflow
-- **RAG (se aplicável):** LangChain + pgvector
-- **Banco:** PostgreSQL
+- **RAG (if applicable):** LangChain + pgvector
+- **Database:** PostgreSQL
 - **Containers:** Docker
-- **Validação:** Pandera, Great Expectations
+- **Validation:** Pandera, Great Expectations
 
-## Estrutura do projeto
+## Project Structure
 
 ```
 src/
 ├── data/
-│   ├── raw/                    # Dados originais (imutáveis, nunca editar)
-│   ├── processed/              # Dados transformados
+│   ├── raw/                    # Original data (immutable, never edit)
+│   ├── processed/              # Transformed data
 │   └── features/               # Feature store
 ├── pipelines/
-│   ├── ingestion/              # Ingestão de fontes externas
-│   ├── preprocessing/          # Limpeza e transformação
-│   ├── feature_engineering/    # Criação de features
-│   └── training/               # Pipeline de treino
+│   ├── ingestion/              # Ingestion from external sources
+│   ├── preprocessing/          # Cleaning and transformation
+│   ├── feature_engineering/    # Feature creation
+│   └── training/               # Training pipeline
 ├── models/
-│   ├── training/               # Scripts de treino
-│   ├── evaluation/             # Avaliação e métricas
-│   └── serving/                # API de inferência (FastAPI)
-├── rag/                        # Se aplicável
+│   ├── training/               # Training scripts
+│   ├── evaluation/             # Evaluation and metrics
+│   └── serving/                # Inference API (FastAPI)
+├── rag/                        # If applicable
 │   ├── ingest.py
 │   ├── retriever.py
 │   └── embeddings.py
-├── notebooks/                  # APENAS exploração (não vai para prod)
+├── notebooks/                  # ONLY for exploration (does not go to prod)
 ├── tests/
 │   ├── test_preprocessing.py
 │   ├── test_features.py
@@ -69,50 +69,50 @@ src/
     └── models_config.yaml
 ```
 
-## Padrões de código
+## Code Standards
 
-- Máximo 500 linhas por arquivo, 20 linhas por função
-- Type hints em funções públicas
-- Docstrings em funções de transformação de dados (input/output)
-- Black + Ruff para formatação
-- Notebook → script Python antes de ir para produção
+- Maximum 500 lines per file, 20 lines per function
+- Type hints on public functions
+- Docstrings on data transformation functions (input/output)
+- Black + Ruff for formatting
+- Notebook -> Python script before going to production
 
-## Padrões de dados
+## Data Standards
 
-- Dados originais são IMUTÁVEIS — nunca editar `raw/`
-- Cada transformação é uma função pura (input → output, sem side effects)
-- Validar schema na entrada de cada pipeline step (Pandera)
-- Versionamento de datasets com DVC
-- Logging de todas as transformações
+- Original data is IMMUTABLE -- never edit `raw/`
+- Each transformation is a pure function (input -> output, no side effects)
+- Validate schema at the entry of each pipeline step (Pandera)
+- Dataset versioning with DVC
+- Logging of all transformations
 
-## Padrões de ML
+## ML Standards
 
-- Todo modelo precisa de baseline (majority class, média, regressão linear)
-- Cross-validation k=5 mínimo
-- Métricas documentadas: accuracy, precision, recall, F1, AUC
-- Feature importance registrada no MLflow
-- Modelo serializado com versão
-- A/B testing antes de substituir modelo em produção
+- Every model needs a baseline (majority class, mean, linear regression)
+- Cross-validation k=5 minimum
+- Documented metrics: accuracy, precision, recall, F1, AUC
+- Feature importance recorded in MLflow
+- Serialized model with version
+- A/B testing before replacing a model in production
 
 ## Git
 
-- Commits: `feat(preprocessing): adicionar normalização de salários`
-- Branches: `feature/<pipeline>-<descricao>`
-- Nunca commitar dados (usar .gitignore, DVC para dados)
-- Nunca commitar modelos binários (usar MLflow registry)
+- Commits: `feat(preprocessing): add salary normalization`
+- Branches: `feature/<pipeline>-<description>`
+- Never commit data (use .gitignore, DVC for data)
+- Never commit binary models (use MLflow registry)
 
-## Testes
+## Tests
 
-- Testes de schema (Pandera) para cada transformação
-- Testes unitários para funções de feature engineering
-- Testes de regressão para métricas do modelo
-- Cobertura mínima: 80% em pipelines de transformação
+- Schema tests (Pandera) for each transformation
+- Unit tests for feature engineering functions
+- Regression tests for model metrics
+- Minimum coverage: 80% on transformation pipelines
 
-## O que NÃO fazer
+## What NOT to do
 
-- Não colocar notebook em produção sem refatorar
-- Não treinar sem baseline
-- Não ignorar data drift
-- Não usar random seed inconsistente
-- Não hardcodar paths — usar config
-- Não fazer SELECT * em queries de dados grandes
+- Do not put notebooks in production without refactoring
+- Do not train without a baseline
+- Do not ignore data drift
+- Do not use inconsistent random seeds
+- Do not hardcode paths -- use config
+- Do not use SELECT * on large data queries

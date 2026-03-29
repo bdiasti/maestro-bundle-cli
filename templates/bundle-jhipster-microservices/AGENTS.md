@@ -1,57 +1,57 @@
-# Projeto: JHipster Microservices
+# Project: JHipster Microservices
 
-Você está construindo uma arquitetura de microsserviços com JHipster. Múltiplos serviços Spring Boot, gateway centralizado, service discovery, messaging assíncrono e frontend Angular.
+You are building a microservices architecture with JHipster. Multiple Spring Boot services, centralized gateway, service discovery, asynchronous messaging, and Angular frontend.
 
 ## Specification-Driven Development (SDD)
 
-A regra fundamental de SDD está definida no bundle-base (AGENTS.md base) e é inegociável:
-**Sem spec, sem código. Sem exceção.** O agente deve recusar implementar qualquer demanda que
-não tenha passado pelo fluxo `/speckit.specify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.implement`.
+The fundamental SDD rule is defined in the bundle-base (base AGENTS.md) and is non-negotiable:
+**No spec, no code. No exception.** The agent must refuse to implement any demand that
+has not gone through the `/speckit.specify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.implement` flow.
 
-Se o usuário pedir para codar algo sem spec, PARE e inicie o fluxo SDD primeiro.
-Consulte `.specify/specs/` para verificar se já existe spec para a demanda.
+If the user asks to code something without a spec, STOP and initiate the SDD flow first.
+Check `.specify/specs/` to verify if a spec already exists for the demand.
 
 ## Product Requirements Document
 
-O arquivo `PRD.md` na raiz do projeto contém os requisitos do produto definidos pelo analista/dev. Consulte-o para entender O QUE construir, as user stories, critérios de aceite, modelo de dados e API specification. Este AGENTS.md define COMO o agente deve trabalhar; o PRD define O QUE deve ser construído.
+The `PRD.md` file at the project root contains the product requirements defined by the analyst/dev. Consult it to understand WHAT to build, the user stories, acceptance criteria, data model, and API specification. This AGENTS.md defines HOW the agent should work; the PRD defines WHAT should be built.
 
-- `PRD.md` — Requisitos do produto, user stories, API spec, modelo de dados
+- `PRD.md` — Product requirements, user stories, API spec, data model
 
 ## References
 
-Documentos de referência que o agente deve consultar quando necessário:
+Reference documents that the agent should consult when necessary:
 
-- `references/jhipster-microservices-guide.md` — Guia de microsserviços JHipster
-- `references/kafka-patterns.md` — Padrões de eventos Kafka
-- `references/saga-patterns.md` — Saga pattern para transações distribuídas
-- `references/k8s-deployment.md` — Deploy em Kubernetes
+- `references/jhipster-microservices-guide.md` — JHipster microservices guide
+- `references/kafka-patterns.md` — Kafka event patterns
+- `references/saga-patterns.md` — Saga pattern for distributed transactions
+- `references/k8s-deployment.md` — Kubernetes deployment
 
-## Stack do projeto
+## Project Stack
 
-- **Backend:** Java 21 + Spring Boot 3.x (múltiplos serviços JHipster)
+- **Backend:** Java 21 + Spring Boot 3.x (multiple JHipster services)
 - **Gateway:** JHipster Gateway (Spring Cloud Gateway)
-- **Service Discovery:** JHipster Registry (Eureka) ou Consul
-- **Frontend:** Angular 17+ (no Gateway ou app separado)
-- **Banco:** PostgreSQL (um banco por serviço)
-- **Messaging:** Apache Kafka (padrão JHipster para microservices)
-- **Cache:** Redis (compartilhado)
-- **Auth:** OAuth2 + Keycloak (recomendado para microservices)
+- **Service Discovery:** JHipster Registry (Eureka) or Consul
+- **Frontend:** Angular 17+ (in the Gateway or separate app)
+- **Database:** PostgreSQL (one database per service)
+- **Messaging:** Apache Kafka (JHipster default for microservices)
+- **Cache:** Redis (shared)
+- **Auth:** OAuth2 + Keycloak (recommended for microservices)
 - **Containers:** Docker Compose (dev) + Kubernetes/K3s (prod)
-- **Migrations:** Liquibase (por serviço)
+- **Migrations:** Liquibase (per service)
 - **CI/CD:** GitLab CI
 - **Monitoring:** Prometheus + Grafana + ELK/Loki
 
-## Estrutura Multi-Repo ou Monorepo
+## Multi-Repo or Monorepo Structure
 
-### Monorepo (recomendado para times pequenos)
+### Monorepo (recommended for small teams)
 ```
 maestro/
 ├── gateway/                    # JHipster Gateway + Angular
 │   ├── src/main/java/
 │   ├── src/main/webapp/        # Angular app
 │   └── pom.xml
-├── demand-service/             # Microserviço de demandas
-│   ├── src/main/java/com/empresa/demand/
+├── demand-service/             # Demand microservice
+│   ├── src/main/java/com/company/demand/
 │   │   ├── domain/
 │   │   ├── repository/
 │   │   ├── service/
@@ -60,13 +60,13 @@ maestro/
 │   ├── src/main/resources/
 │   │   └── config/liquibase/
 │   └── pom.xml
-├── agent-service/              # Microserviço de agentes
+├── agent-service/              # Agent microservice
 │   └── ...
-├── tracking-service/           # Microserviço de rastreamento
+├── tracking-service/           # Tracking microservice
 │   └── ...
-├── bundle-service/             # Microserviço de bundles/skills
+├── bundle-service/             # Bundle/skills microservice
 │   └── ...
-├── docker-compose/             # Docker Compose para dev
+├── docker-compose/             # Docker Compose for dev
 │   ├── docker-compose.yml
 │   ├── keycloak.yml
 │   ├── kafka.yml
@@ -77,17 +77,17 @@ maestro/
 │   ├── agent-service/
 │   ├── gateway/
 │   └── registry/
-└── jhipster-jdl.jdl           # JDL completo
+└── jhipster-jdl.jdl           # Complete JDL
 ```
 
-## JDL para Microservices
+## JDL for Microservices
 
 ```jdl
 application {
     config {
         baseName gateway
         applicationType gateway
-        packageName com.empresa.gateway
+        packageName com.company.gateway
         serviceDiscoveryType consul
         authenticationType oauth2
         prodDatabaseType postgresql
@@ -100,7 +100,7 @@ application {
     config {
         baseName demandService
         applicationType microservice
-        packageName com.empresa.demand
+        packageName com.company.demand
         serviceDiscoveryType consul
         authenticationType oauth2
         prodDatabaseType postgresql
@@ -114,7 +114,7 @@ application {
     config {
         baseName agentService
         applicationType microservice
-        packageName com.empresa.agent
+        packageName com.company.agent
         serviceDiscoveryType consul
         authenticationType oauth2
         prodDatabaseType postgresql
@@ -128,7 +128,7 @@ application {
     config {
         baseName trackingService
         applicationType microservice
-        packageName com.empresa.tracking
+        packageName com.company.tracking
         serviceDiscoveryType consul
         authenticationType oauth2
         prodDatabaseType postgresql
@@ -193,9 +193,9 @@ deployment {
 }
 ```
 
-## Comunicação entre serviços
+## Inter-Service Communication
 
-### Síncrona — Feign Client (entre serviços)
+### Synchronous -- Feign Client (between services)
 ```java
 @FeignClient(name = "agentService")
 public interface AgentServiceClient {
@@ -207,9 +207,9 @@ public interface AgentServiceClient {
 }
 ```
 
-### Assíncrona — Kafka (eventos de domínio)
+### Asynchronous -- Kafka (domain events)
 ```java
-// Producer — demand-service
+// Producer -- demand-service
 @Service
 public class DemandEventProducer {
     private final KafkaTemplate<String, DemandEvent> kafka;
@@ -222,23 +222,23 @@ public class DemandEventProducer {
     }
 }
 
-// Consumer — agent-service
+// Consumer -- agent-service
 @Service
 public class DemandEventConsumer {
     @KafkaListener(topics = "demand-events", groupId = "agent-service")
     public void onDemandDecomposed(DemandDecomposed event) {
-        // Alocar agentes para as tasks
+        // Allocate agents for the tasks
         taskAllocationService.allocateForDemand(event.demandId(), event.taskIds());
     }
 }
 ```
 
-## Padrões obrigatórios
+## Mandatory Patterns
 
 ### Database per Service
-Cada microsserviço tem seu próprio banco PostgreSQL. Nunca acessar banco de outro serviço diretamente.
+Each microservice has its own PostgreSQL database. Never access another service's database directly.
 
-### Saga Pattern para transações distribuídas
+### Saga Pattern for distributed transactions
 ```
 demand-service: CreateDemand
     → kafka: DemandCreated
@@ -246,7 +246,7 @@ demand-service: CreateDemand
             → kafka: AgentsAllocated
                 → demand-service: UpdateDemandStatus(PLANNED)
 
-Se AgentAllocation falhar:
+If AgentAllocation fails:
     → kafka: AllocationFailed
         → demand-service: CompensateDemand(CANCELLED)
 ```
@@ -264,47 +264,47 @@ public List<AgentDTO> fallbackGetAgents(AgentType type, Throwable t) {
 }
 ```
 
-## Docker Compose para dev
+## Docker Compose for dev
 
 ```bash
-# Subir tudo
+# Start everything
 docker-compose -f docker-compose/docker-compose.yml up -d
 
-# Subir serviço específico
+# Start a specific service
 docker-compose -f docker-compose/docker-compose.yml up -d demand-service
 ```
 
-## Kubernetes para prod
+## Kubernetes for prod
 
 ```bash
 # Deploy via JHipster
 jhipster kubernetes
 
-# Aplicar
+# Apply
 kubectl apply -f k8s/
 ```
 
-## Testes
+## Tests
 
-- **Unit:** JUnit 5 — entidades e services (>= 90% domínio)
-- **Integration:** Testcontainers + PostgreSQL real (>= 70%)
-- **Contract:** Spring Cloud Contract — contratos entre serviços
-- **E2E:** Cypress no gateway
-- **Load:** Gatling (incluso no JHipster)
+- **Unit:** JUnit 5 -- entities and services (>= 90% domain)
+- **Integration:** Testcontainers + real PostgreSQL (>= 70%)
+- **Contract:** Spring Cloud Contract -- contracts between services
+- **E2E:** Cypress on the gateway
+- **Load:** Gatling (included in JHipster)
 
 ## Git
 
-- Commits: `feat(demand-service): adicionar saga de alocação`
-- Branches: `feature/<service>-<descricao>`
-- Um PR por serviço quando possível
-- Nunca fazer breaking change em API sem versionar
+- Commits: `feat(demand-service): add allocation saga`
+- Branches: `feature/<service>-<description>`
+- One PR per service when possible
+- Never make breaking API changes without versioning
 
-## O que NÃO fazer
+## What NOT to do
 
-- Não acessar banco de outro serviço diretamente
-- Não fazer chamadas síncronas em cadeia (A→B→C→D) — usar eventos
-- Não compartilhar entities entre serviços — cada um tem seus DTOs
-- Não deployar todos os serviços juntos — deploy independente
-- Não ignorar circuit breakers em chamadas inter-serviço
-- Não usar transações distribuídas (2PC) — usar Saga
-- Não criar um "serviço de tudo" — manter bounded contexts
+- Do not access another service's database directly
+- Do not make synchronous call chains (A->B->C->D) -- use events
+- Do not share entities between services -- each has its own DTOs
+- Do not deploy all services together -- deploy independently
+- Do not ignore circuit breakers on inter-service calls
+- Do not use distributed transactions (2PC) -- use Saga
+- Do not create an "everything service" -- maintain bounded contexts

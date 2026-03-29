@@ -1,33 +1,33 @@
-# Constitution — Projeto de Agentes AI
+# Constitution — AI Agents Project
 
-## Princípios
+## Principles
 
-1. **Spec primeiro, código depois** — Toda demanda passa pelo fluxo SDD antes de implementação
-2. **Agente governado** — Todo agente segue seu AGENTS.md e skills, sem "vibing coding"
-3. **Observável** — Toda execução de agente é rastreada no Langfuse
-4. **Avaliável** — Todo agente tem evals com golden dataset antes de ir para produção
-5. **Context-aware** — Gerenciar janela de contexto com as 4 estratégias (Write, Select, Compress, Isolate)
+1. **Spec first, code later** — Every demand goes through the SDD flow before implementation
+2. **Governed agent** — Every agent follows its AGENTS.md and skills, no "vibing coding"
+3. **Observable** — Every agent execution is traced in Langfuse
+4. **Evaluable** — Every agent has evals with golden dataset before going to production
+5. **Context-aware** — Manage context window with the 4 strategies (Write, Select, Compress, Isolate)
 
-## Padrões de desenvolvimento
+## Development Standards
 
-- Clean Architecture para separar domínio de infraestrutura
-- Entidades ricas com comportamento (não anêmicas)
-- Value Objects para validação
-- Testes: >= 80% cobertura, evals para agentes
+- Clean Architecture to separate domain from infrastructure
+- Rich entities with behavior (not anemic)
+- Value Objects for validation
+- Tests: >= 80% coverage, evals for agents
 - Python 3.11+, type hints, Black + Ruff
 
-## Padrões de agentes
+## Agent Standards
 
-- System prompts versionados, nunca hardcoded
-- Tools com schemas Pydantic
-- Human-in-the-loop para operações destrutivas
-- Timeout e limite de iterações em loops
-- Memória de longo prazo via LangGraph Store
+- System prompts versioned, never hardcoded
+- Tools with Pydantic schemas
+- Human-in-the-loop for destructive operations
+- Timeout and iteration limits on loops
+- Long-term memory via LangGraph Store
 
-## Padrões de qualidade
+## Quality Standards
 
-- Code review obrigatório
-- Commits seguem Conventional Commits
-- Branches seguem estratégia feature/fix/hotfix
-- Nunca commitar secrets
-- Rate limiting em todas as APIs
+- Code review mandatory
+- Commits follow Conventional Commits
+- Branches follow feature/fix/hotfix strategy
+- Never commit secrets
+- Rate limiting on all APIs
