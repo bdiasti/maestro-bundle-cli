@@ -113,6 +113,7 @@ function showHelp() {
   console.log("");
   console.log(chalk.dim("  Usage:"));
   console.log(`    npx maestro-bundle ${chalk.green("<bundle>")} ${chalk.yellow("<editor>")} ${chalk.dim("[directory]")}`);
+  console.log(`    npx maestro-bundle ${chalk.green("<bundle>")} ${chalk.yellow("<editor>")} ${chalk.dim("[directory]")} --no-sdd`);
   console.log("");
   console.log(chalk.dim("  Bundles:"));
   for (const [key, info] of Object.entries(BUNDLES)) {
@@ -127,8 +128,12 @@ function showHelp() {
   console.log(`    ${chalk.yellow("windsurf".padEnd(12))} .windsurfrules (all in one file)`);
   console.log(`    ${chalk.yellow("all".padEnd(12))} Install for all editors in the same repo`);
   console.log("");
+  console.log(chalk.dim("  Options:"));
+  console.log(`    ${chalk.dim("--no-sdd")}     Skip GitHub Spec Kit (no /speckit.* commands, just AGENTS.md + skills)`);
+  console.log("");
   console.log(chalk.dim("  Examples:"));
   console.log(`    npx maestro-bundle ai-agents claude`);
+  console.log(`    npx maestro-bundle ai-agents claude --no-sdd        ${chalk.dim("# Without SDD")}`);
   console.log(`    npx maestro-bundle jhipster-monorepo cursor ./my-project`);
   console.log(`    npx maestro-bundle frontend-spa all`);
   console.log("");
@@ -251,9 +256,11 @@ async function main() {
     process.exit(args.length < 2 && !args.includes("--help") ? 1 : 0);
   }
 
-  const bundleName = args[0];
-  const editorArg = args[1];
-  const targetDir = resolve(args[2] || ".");
+  const noSdd = args.includes("--no-sdd");
+  const filteredArgs = args.filter(a => a !== "--no-sdd");
+  const bundleName = filteredArgs[0];
+  const editorArg = filteredArgs[1];
+  const targetDir = resolve(filteredArgs[2] || ".");
 
   if (!BUNDLES[bundleName]) {
     console.error(chalk.red(`\n  Bundle "${bundleName}" not found.\n`));
@@ -276,10 +283,18 @@ async function main() {
     process.exit(1);
   }
 
-  // Montar AGENTS.md (base + bundle)
+  // Build AGENTS.md (base + bundle)
   let agentsMd = readFile(join(baseDir, "AGENTS.md"));
   const bundleAgents = readFile(join(bundleDir, "AGENTS.md"));
   if (bundleAgents) agentsMd += "\n\n---\n\n" + bundleAgents;
+
+  // If --no-sdd, strip SDD sections from AGENTS.md
+  if (noSdd) {
+    agentsMd = agentsMd
+      .replace(/## FUNDAMENTAL RULE: Specification-Driven Development[\s\S]*?(?=\n## )/g, "")
+      .replace(/## Specification-Driven Development[\s\S]*?(?=\n## )/g, "")
+      .replace(/The fundamental SDD rule[\s\S]*?(?=\n## )/g, "");
+  }
 
   // Listar skills
   const skillDirs = getSkillDirs(templatesDir, bundleName);
@@ -351,7 +366,11 @@ async function main() {
   }
   spinner3.succeed("references/ ready");
 
-  // 4. GitHub Spec Kit — install CLI + initialize in project
+  // 4. GitHub Spec Kit — install CLI + initialize in project (skip with --no-sdd)
+  if (noSdd) {
+    const spinnerSkip = ora("Skipping Spec Kit (--no-sdd)").start();
+    spinnerSkip.info("Spec Kit skipped. Using AGENTS.md + skills only.");
+  } else {
   // Map editor to specify --ai flag
   const aiFlags = {
     claude: "claude",
@@ -449,6 +468,7 @@ async function main() {
       spinner4d.succeed("Bundle constitution integrated with Spec Kit");
     }
   }
+  } // end if (!noSdd)
 
   // Done
   console.log("");
@@ -474,18 +494,27 @@ async function main() {
       console.log(`      ${chalk.cyan(".windsurfrules")}`);
     }
   }
-  console.log(`    ${chalk.cyan("skills/")} (${skills.length} canonical for Deep Agents)`);
-  console.log(`    ${chalk.cyan(".specify/")} (GitHub Spec Kit — /speckit.* commands)`);
-  console.log("");
-  console.log("  SDD commands available in your editor:");
-  console.log(`    ${chalk.cyan("/speckit.constitution")}  — Define project principles`);
-  console.log(`    ${chalk.cyan("/speckit.specify")}       — Specify WHAT and WHY`);
-  console.log(`    ${chalk.cyan("/speckit.plan")}          — Plan architecture and stack`);
-  console.log(`    ${chalk.cyan("/speckit.tasks")}         — Break into atomic tasks`);
-  console.log(`    ${chalk.cyan("/speckit.implement")}     — Execute tasks`);
+
+  if (!noSdd) {
+    console.log(`    ${chalk.cyan(".specify/")} (GitHub Spec Kit — /speckit.* commands)`);
+    console.log("");
+    console.log("  SDD commands available in your editor:");
+    console.log(`    ${chalk.cyan("/speckit.specify")}       — Specify WHAT and WHY`);
+    console.log(`    ${chalk.cyan("/speckit.plan")}          — Plan architecture and stack`);
+    console.log(`    ${chalk.cyan("/speckit.tasks")}         — Break into atomic tasks`);
+    console.log(`    ${chalk.cyan("/speckit.implement")}     — Execute tasks`);
+  }
+
   console.log("");
   console.log("  Next step:");
-  console.log("    Open your project in your AI editor and use " + chalk.cyan("/speckit.specify") + " to get started");
+  if (noSdd) {
+    console.log("    1. Fill in PRD.md with your product requirements");
+    console.log("    2. Open the project in your AI editor and start coding");
+  } else {
+    console.log("    1. Fill in PRD.md with your product requirements");
+    console.log("    2. Open the project in your AI editor");
+    console.log("    3. Use " + chalk.cyan("/speckit.specify") + " to start your first feature");
+  }
   console.log("");
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "maestro-bundle",
-  "version": "2.0.1",
+  "version": "2.2.0",
   "description": "One command. Full context for your AI agent. Any editor. Install governance bundles with skills, PRD, AGENTS.md and GitHub Spec Kit.",
   "bin": {
     "maestro-bundle": "./src/cli.mjs"
